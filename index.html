@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajedrez IA</title>
+
+
+  <!-- Chessboard JS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css"
+    integrity="sha384-q94+BZSKLrkL1/ohfjR8c6L+A6qzNH9R2hBLwyoAfu3i/WCENIKjzNjLeTegCIM…" crossorigin="anonymous">
+
+  <style>
+    /* Custom styles for chessboard.js to match the new theme */
+    .themed-board .white-1e1d7 {
+      background-color: #e3d9f0 !important;
+      /* Light lavender */
+    }
+
+    .themed-board .black-3c85d {
+      background-color: #7b62a3 !important;
+      /* Muted purple */
+    }
+  </style>
+
+  <!-- Load legacy scripts before the main app module -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous" defer></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"
+    integrity="sha384-8Vi8VHwn3vjQ9eUHUxex3JSN/NFqUg3QbPyX8kWyb93+8AC/pPWTzj+nHtbC5bxD" crossorigin="anonymous"
+    defer></script>
+
+  <script type="importmap">
+      {
+        "imports": {
+          "react/": "https://esm.sh/react@^19.1.0/",
+          "react": "https://esm.sh/react@^19.1.0",
+          "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+          "@google/genai": "https://esm.sh/@google/genai@^1.8.0",
+          "chess.js": "https://esm.sh/chess.js@^1.0.0-beta.8"
+        }
+      }
+    </script>
+  <link rel="stylesheet" href="/src/index.css">
+</head>
+
+<body class="bg-night-sky">
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
+</html>

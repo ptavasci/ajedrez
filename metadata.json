@@ -1,0 +1,5 @@
+{
+  "name": "Ajedrez IA",
+  "description": "A web application that allows you to play a game of chess against a powerful AI opponent powered by the Gemini API. Features include move validation, game state tracking, and a clean, modern interface.",
+  "requestFramePermissions": []
+}
