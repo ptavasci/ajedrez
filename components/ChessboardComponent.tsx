@@ -56,7 +56,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       onDragStart: onDragStart,
       onDrop: onDrop,
       onSnapEnd: onSnapEnd,
-      pieceTheme: '/img/chesspieces/wikipedia/{piece}.png',
+      pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
       showNotation: true,
       orientation: orientation,
     };
