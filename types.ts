@@ -37,3 +37,13 @@ export type BoardConfig = {
   sparePieces?: boolean;
   showNotation?: boolean;
 };
+
+export interface DeviceInfo {
+  isMobile: boolean;
+  isTouch: boolean;
+  isTV: boolean;
+  resolution: {
+    width: number;
+    height: number;
+  };
+}

@@ -1,92 +1,67 @@
 import { useState, useEffect } from 'react';
 import { Device } from '@capacitor/device';
-
-interface DeviceInfo {
-    isMobile: boolean;
-    isTablet: boolean;
-    isTV: boolean;
-    isTouchscreen: boolean;
-    platform: string;
-    model: string;
-}
+import { DeviceInfo } from '../types'; // Import the DeviceInfo interface
 
 export const useDeviceDetection = (): DeviceInfo => {
     const [deviceInfo, setDeviceInfo] = useState<DeviceInfo>({
         isMobile: false,
-        isTablet: false,
+        isTouch: false,
         isTV: false,
-        isTouchscreen: false,
-        platform: 'web',
-        model: '',
+        resolution: {
+            width: 0,
+            height: 0,
+        },
     });
 
     useEffect(() => {
         const detectDevice = async () => {
-            let isTouchscreen = false;
+            let isTouch = false;
             if (typeof window !== 'undefined') {
-                isTouchscreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-                if (!isTouchscreen && window.matchMedia) {
-                    isTouchscreen = window.matchMedia('(pointer:coarse)').matches;
+                isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+                if (!isTouch && window.matchMedia) {
+                    isTouch = window.matchMedia('(pointer:coarse)').matches;
                 }
             }
 
-            let platform = 'web';
-            let model = '';
             let isMobile = false;
-            let isTablet = false;
             let isTV = false;
+            let width = window.screen.width * window.devicePixelRatio;
+            let height = window.screen.height * window.devicePixelRatio;
 
             try {
                 const info = await Device.getInfo();
-                platform = info.platform;
-                model = info.model;
+                const userAgent = navigator.userAgent.toLowerCase();
 
-                if (platform === 'ios' || platform === 'android') {
-                    // Basic mobile/tablet detection based on common screen sizes or device types
-                    // This is a heuristic and might need refinement
-                    const screenWidth = window.innerWidth;
-                    const screenHeight = window.innerHeight;
-                    const minTabletSize = 600; // A common breakpoint for tablets
+                if (info.platform === 'ios' || info.platform === 'android') {
+                    // More robust detection for mobile and TV
+                    // More robust TV detection, including common TV user agent strings and models
+                    isTV = userAgent.includes('android tv') || userAgent.includes('googletv') || userAgent.includes('tv') || userAgent.includes('smarttv') || info.model.toLowerCase().includes('tv') || info.model.toLowerCase().includes('android tv');
+                    isMobile = !isTV && (info.platform === 'ios' || info.platform === 'android');
 
-                    if (info.isVirtual) {
-                        // For emulators, assume mobile/tablet based on platform
-                        isMobile = true; // Default for emulators
-                    } else if (platform === 'ios') {
-                        // iOS specific checks (e.g., iPad models)
-                        if (model.includes('iPad')) {
-                            isTablet = true;
-                        } else {
-                            isMobile = true;
-                        }
-                    } else if (platform === 'android') {
-                        // Android specific checks
-                        // Check for common TV indicators in model name or user agent (less reliable)
-                        const userAgent = navigator.userAgent.toLowerCase();
-                        if (userAgent.includes('android tv') || userAgent.includes('googletv') || model.includes('tv')) {
-                            isTV = true;
-                        } else if (screenWidth >= minTabletSize || screenHeight >= minTabletSize) {
-                            isTablet = true;
-                        } else {
-                            isMobile = true;
-                        }
+                    // Refine isTouch for TV devices
+                    // If it's a TV, it's highly unlikely to be a primary touch device
+                    if (isTV) {
+                        isTouch = false;
                     }
                 }
             } catch (e) {
                 console.warn('Capacitor Device plugin not available, defaulting to web detection.', e);
-                // Fallback for web or when Capacitor is not initialized
                 const userAgent = navigator.userAgent.toLowerCase();
-                isMobile = /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-                isTablet = /(ipad|tablet|playbook|silk)|(android(?!.*mobile))/i.test(userAgent);
-                isTV = /googletv|android tv|firetv/i.test(userAgent); // Basic web TV detection
+                isMobile = /android|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+                isTV = /googletv|android tv|firetv|tv|smarttv/i.test(userAgent);
+                if (isTV) {
+                    isTouch = false;
+                }
             }
 
             setDeviceInfo({
                 isMobile,
-                isTablet,
+                isTouch,
                 isTV,
-                isTouchscreen,
-                platform,
-                model,
+                resolution: {
+                    width,
+                    height,
+                },
             });
         };
 
