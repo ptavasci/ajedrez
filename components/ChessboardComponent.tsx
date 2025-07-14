@@ -9,7 +9,12 @@ interface ChessboardComponentProps {
   game: any; // The chess.js instance
 }
 
-export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, onMove, orientation, game }) => {
+export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
+  fen,
+  onMove,
+  orientation,
+  game,
+}) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const boardInstance = useRef<any>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
@@ -95,7 +100,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
       showNotation: true,
       orientation: orientation,
-      onSquareClick: (isTouch || isTV) ? onSquareClick : undefined, // Only add onSquareClick if touchscreen or TV
+      onSquareClick: isTouch || isTV ? onSquareClick : undefined, // Only add onSquareClick if touchscreen or TV
     };
 
     // Initialize the board using the global Chessboard function from the script tag
@@ -111,7 +116,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       if (boardInstance.current) {
         boardInstance.current.resize();
       }
-    }
+    };
 
     window.addEventListener('resize', handleResize);
 
@@ -121,8 +126,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
         boardInstance.current.destroy();
         boardInstance.current = null;
       }
-    }
-
+    };
   }, [fen, orientation, onMove, game, isTouch, isTV, onSquareClick]); // Updated dependencies
 
   // Effect for TV D-pad navigation
@@ -136,7 +140,10 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       setFocusedSquare(orientation === 'white' ? 'e2' : 'e7'); // Start at a common pawn square
     }
 
-    const getSquareInDirection = (current: string, direction: 'up' | 'down' | 'left' | 'right'): string => {
+    const getSquareInDirection = (
+      current: string,
+      direction: 'up' | 'down' | 'left' | 'right',
+    ): string => {
       const file = current.charCodeAt(0); // 'a' -> 97
       const rank = parseInt(current[1]); // '1' -> 1
 
@@ -159,8 +166,12 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       }
 
       // Ensure new square is within bounds
-      if (newFile >= 'a'.charCodeAt(0) && newFile <= 'h'.charCodeAt(0) &&
-        newRank >= 1 && newRank <= 8) {
+      if (
+        newFile >= 'a'.charCodeAt(0) &&
+        newFile <= 'h'.charCodeAt(0) &&
+        newRank >= 1 &&
+        newRank <= 8
+      ) {
         return String.fromCharCode(newFile) + newRank;
       }
       return current; // Stay on current square if out of bounds
@@ -173,16 +184,28 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
 
       switch (event.key) {
         case 'ArrowUp':
-          nextSquare = getSquareInDirection(focusedSquare || (orientation === 'white' ? 'e2' : 'e7'), 'up');
+          nextSquare = getSquareInDirection(
+            focusedSquare || (orientation === 'white' ? 'e2' : 'e7'),
+            'up',
+          );
           break;
         case 'ArrowDown':
-          nextSquare = getSquareInDirection(focusedSquare || (orientation === 'white' ? 'e2' : 'e7'), 'down');
+          nextSquare = getSquareInDirection(
+            focusedSquare || (orientation === 'white' ? 'e2' : 'e7'),
+            'down',
+          );
           break;
         case 'ArrowLeft':
-          nextSquare = getSquareInDirection(focusedSquare || (orientation === 'white' ? 'e2' : 'e7'), 'left');
+          nextSquare = getSquareInDirection(
+            focusedSquare || (orientation === 'white' ? 'e2' : 'e7'),
+            'left',
+          );
           break;
         case 'ArrowRight':
-          nextSquare = getSquareInDirection(focusedSquare || (orientation === 'white' ? 'e2' : 'e7'), 'right');
+          nextSquare = getSquareInDirection(
+            focusedSquare || (orientation === 'white' ? 'e2' : 'e7'),
+            'right',
+          );
           break;
         case 'Enter':
           if (focusedSquare) {
@@ -216,21 +239,78 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       // If not, we'd need to manually remove classes from DOM elements.
       // For now, let's assume a 'clearMarkers' or similar method.
       // If not, we'll need to add a custom function to clear classes.
-      const allSquares = ['a1', 'a2', 'a3', 'a4', 'a5', 'a6', 'a7', 'a8',
-        'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8',
-        'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8',
-        'd1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8',
-        'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8',
-        'f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8',
-        'g1', 'g2', 'g3', 'g4', 'g5', 'g6', 'g7', 'g8',
-        'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'h7', 'h8'];
-      allSquares.forEach(sq => {
+      const allSquares = [
+        'a1',
+        'a2',
+        'a3',
+        'a4',
+        'a5',
+        'a6',
+        'a7',
+        'a8',
+        'b1',
+        'b2',
+        'b3',
+        'b4',
+        'b5',
+        'b6',
+        'b7',
+        'b8',
+        'c1',
+        'c2',
+        'c3',
+        'c4',
+        'c5',
+        'c6',
+        'c7',
+        'c8',
+        'd1',
+        'd2',
+        'd3',
+        'd4',
+        'd5',
+        'd6',
+        'd7',
+        'd8',
+        'e1',
+        'e2',
+        'e3',
+        'e4',
+        'e5',
+        'e6',
+        'e7',
+        'e8',
+        'f1',
+        'f2',
+        'f3',
+        'f4',
+        'f5',
+        'f6',
+        'f7',
+        'f8',
+        'g1',
+        'g2',
+        'g3',
+        'g4',
+        'g5',
+        'g6',
+        'g7',
+        'g8',
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6',
+        'h7',
+        'h8',
+      ];
+      allSquares.forEach((sq) => {
         const squareEl = boardRef.current?.querySelector(`.square-${sq}`);
         if (squareEl) {
           squareEl.classList.remove('highlight-focused', 'highlight-selected');
         }
       });
-
 
       if (focusedSquare && isTV) {
         const squareEl = boardRef.current?.querySelector(`.square-${focusedSquare}`);
