@@ -14,7 +14,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
   const boardInstance = useRef<any>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [focusedSquare, setFocusedSquare] = useState<string | null>(null); // New state for TV navigation
-  const { isTouchscreen, isTV } = useDeviceDetection();
+  const { isTouch, isTV } = useDeviceDetection();
 
   // onSquareClick handler for tap-to-move and D-pad selection
   const onSquareClick = (square: string) => {
@@ -87,7 +87,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
     };
 
     const config: BoardConfig = {
-      draggable: !isTouchscreen && !isTV, // Enable drag-and-drop only if not touchscreen and not TV
+      draggable: !isTouch && !isTV, // Enable drag-and-drop only if not touchscreen and not TV
       position: fen,
       onDragStart: onDragStart,
       onDrop: onDrop,
@@ -95,7 +95,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
       showNotation: true,
       orientation: orientation,
-      onSquareClick: (isTouchscreen || isTV) ? onSquareClick : undefined, // Only add onSquareClick if touchscreen or TV
+      onSquareClick: (isTouch || isTV) ? onSquareClick : undefined, // Only add onSquareClick if touchscreen or TV
     };
 
     // Initialize the board using the global Chessboard function from the script tag
@@ -123,7 +123,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       }
     }
 
-  }, [fen, orientation, onMove, game, isTouchscreen, isTV, onSquareClick]); // Updated dependencies
+  }, [fen, orientation, onMove, game, isTouch, isTV, onSquareClick]); // Updated dependencies
 
   // Effect for TV D-pad navigation
   useEffect(() => {
