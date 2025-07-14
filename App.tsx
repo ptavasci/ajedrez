@@ -61,9 +61,9 @@ const App: React.FC = () => {
   `;
 
   const controlsAndInfoPanelClasses = `
-    flex flex-col items-center
+    flex flex-col items-start
     ${(isMobile || isTV)
-      ? 'landscape:flex-1 landscape:justify-between landscape:h-full'
+      ? 'landscape:flex-1 landscape:h-full'
       : ''
     }
   `;
@@ -95,7 +95,7 @@ const App: React.FC = () => {
           />
         </div>
         <div className={controlsAndInfoPanelClasses}> {/* New container for buttons and info panel */}
-          <div className="mt-6 flex justify-center space-x-6">
+          <div className="flex justify-center space-x-6 mb-6">
             <button
               onClick={() => {
                 resetGame();
@@ -119,6 +119,7 @@ const App: React.FC = () => {
             status={status}
             capturedPieces={capturedPieces}
             isMobileOrTV={isMobile || isTV} // Pass prop to GameInfoPanel
+            className="flex-grow"
           />
         </div>
       </div>
