@@ -13,7 +13,7 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
                 <p className="text-3xl sm:text-4xl text-lavender-mist">Elige tu modo de juego</p>
             </header>
 
-            <div className="flex flex-col sm:flex-row gap-10">
+            <div className="flex flex-col md:flex-row gap-6 w-full max-w-md px-4">
                 <button
                     onClick={() => onSelectMode('human-vs-ai')}
                     onKeyDown={(e) => {
@@ -24,9 +24,9 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
                         }
                     }}
                     tabIndex={0}
-                    className="px-16 py-8 bg-vibrant-violet hover:bg-hover-violet rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-6 transition-all duration-300 text-star-white font-bold text-2xl sm:text-3xl transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-75 w-full"
+                    className="px-8 py-6 bg-vibrant-violet hover:bg-hover-violet rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-4 transition-all duration-300 text-star-white font-bold text-xl sm:text-2xl transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-75 w-full max-w-xs mx-auto"
                 >
-                    <span className="text-6xl sm:text-7xl">🤖</span>
+                    <span className="text-5xl sm:text-6xl">🤖</span>
                     Jugar contra IA
                 </button>
 
@@ -40,9 +40,9 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
                         }
                     }}
                     tabIndex={0}
-                    className="px-16 py-8 bg-dusk-purple hover:bg-vibrant-violet rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-6 transition-all duration-300 text-star-white font-bold text-2xl sm:text-3xl transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-75 w-full"
+                    className="px-8 py-6 bg-dusk-purple hover:bg-vibrant-violet rounded-2xl shadow-2xl flex flex-col items-center justify-center gap-4 transition-all duration-300 text-star-white font-bold text-xl sm:text-2xl transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-75 w-full max-w-xs mx-auto"
                 >
-                    <span className="text-6xl sm:text-7xl">🤝</span>
+                    <span className="text-5xl sm:text-6xl">🤝</span>
                     2 Jugadores (Local)
                 </button>
             </div>
