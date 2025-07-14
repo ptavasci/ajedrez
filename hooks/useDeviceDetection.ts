@@ -25,8 +25,8 @@ export const useDeviceDetection = (): DeviceInfo => {
 
             let isMobile = false;
             let isTV = false;
-            let width = window.screen.width * window.devicePixelRatio;
-            let height = window.screen.height * window.devicePixelRatio;
+            let width = window.innerWidth;
+            let height = window.innerHeight;
 
             try {
                 const info = await Device.getInfo();
@@ -35,22 +35,21 @@ export const useDeviceDetection = (): DeviceInfo => {
                 if (info.platform === 'ios' || info.platform === 'android') {
                     // More robust detection for mobile and TV
                     // More robust TV detection, including common TV user agent strings and models
-                    isTV = userAgent.includes('android tv') || userAgent.includes('googletv') || userAgent.includes('tv') || userAgent.includes('smarttv') || info.model.toLowerCase().includes('tv') || info.model.toLowerCase().includes('android tv');
+                    isTV = userAgent.includes('android tv') || userAgent.includes('googletv') || userAgent.includes('tv') || userAgent.includes('smarttv') || userAgent.includes('appletv') || info.model.toLowerCase().includes('tv') || info.model.toLowerCase().includes('android tv') || userAgent.includes('crkey') || userAgent.includes('aftb') || userAgent.includes('roku'); // Added 'roku' for Roku devices
                     isMobile = !isTV && (info.platform === 'ios' || info.platform === 'android');
 
                     // Refine isTouch for TV devices
-                    // If it's a TV, it's highly unlikely to be a primary touch device
                     if (isTV) {
-                        isTouch = false;
+                        isTouch = false; // Explicitly set to false for TVs
                     }
                 }
             } catch (e) {
                 console.warn('Capacitor Device plugin not available, defaulting to web detection.', e);
                 const userAgent = navigator.userAgent.toLowerCase();
                 isMobile = /android|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-                isTV = /googletv|android tv|firetv|tv|smarttv/i.test(userAgent);
+                isTV = /googletv|android tv|firetv|tv|smarttv|appletv|crkey|aftb|roku/i.test(userAgent); // Added 'roku'
                 if (isTV) {
-                    isTouch = false;
+                    isTouch = false; // Explicitly set to false for TVs
                 }
             }
 
