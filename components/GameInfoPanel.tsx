@@ -24,7 +24,7 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({ status, capturedPi
   const panelClasses = `
     bg-mountain-shadow p-6 rounded-lg shadow-xl border border-ridge-border flex flex-col
     ${isMobileOrTV
-      ? 'w-full landscape:w-auto landscape:flex-1 landscape:max-h-full text-sm landscape:text-xs' // Smaller text for landscape on mobile/TV
+      ? 'w-full landscape:w-auto landscape:flex-1 landscape:max-h-full text-sm landscape:text-xs portrait:h-auto portrait:max-h-[40vh]' // Adjusted for mobile/TV portrait
       : 'w-full lg:w-96 h-[50vh] lg:h-auto lg:max-h-[calc(100vh-200px)]'
     }
     ${className || ''}

@@ -41,13 +41,13 @@ const App: React.FC = () => {
 
   const appContainerClasses = `
     bg-night-sky text-star-white flex flex-col items-center justify-center font-sans
-    ${(isMobile || isTV) ? 'h-screen w-screen overflow-hidden p-0' : 'h-screen p-6'}
+    ${(isMobile || isTV) ? 'h-screen w-screen overflow-y-auto p-0' : 'h-screen p-6'}
   `;
 
   const mainContentClasses = `
     flex justify-center
     ${(isMobile || isTV)
-      ? 'flex-grow flex-col landscape:flex-row items-center landscape:items-start landscape:gap-4'
+      ? 'flex-grow flex-col landscape:flex-row items-center landscape:items-start landscape:gap-4 portrait:gap-4' // Added portrait:gap-4
       : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
     }
   `;
@@ -55,7 +55,7 @@ const App: React.FC = () => {
   const chessboardContainerClasses = `
     relative shadow-2xl rounded-lg overflow-hidden
     ${(isMobile || isTV)
-      ? 'w-full max-w-full aspect-square landscape:flex-1' // Take full width in portrait, flex-1 in landscape
+      ? 'aspect-square landscape:flex-none landscape:max-w-[50vh] landscape:max-h-[50vh] portrait:max-w-[90vw] portrait:max-h-[90vw] portrait:w-full' // Adjusted for mobile/TV landscape and portrait
       : 'w-full max-w-2xl lg:max-w-3xl'
     }
   `;
@@ -63,7 +63,7 @@ const App: React.FC = () => {
   const controlsAndInfoPanelClasses = `
     flex flex-col items-start
     ${(isMobile || isTV)
-      ? 'landscape:flex-1 landscape:h-full'
+      ? 'landscape:flex-1 landscape:h-full portrait:w-full portrait:px-4' // Adjusted for mobile/TV
       : ''
     }
   `;
