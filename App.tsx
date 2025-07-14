@@ -47,7 +47,7 @@ const App: React.FC = () => {
   const mainContentClasses = `
     flex justify-center
     ${(isMobile || isTV)
-      ? 'flex-grow flex-col landscape:flex-row landscape:gap-4 items-center landscape:items-start'
+      ? 'flex-grow flex-col landscape:flex-row items-center landscape:items-start landscape:gap-4'
       : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
     }
   `;
@@ -57,6 +57,14 @@ const App: React.FC = () => {
     ${(isMobile || isTV)
       ? 'w-full max-w-full aspect-square landscape:flex-1' // Take full width in portrait, flex-1 in landscape
       : 'w-full max-w-2xl lg:max-w-3xl'
+    }
+  `;
+
+  const controlsAndInfoPanelClasses = `
+    flex flex-col items-center
+    ${(isMobile || isTV)
+      ? 'landscape:flex-1 landscape:justify-between landscape:h-full'
+      : ''
     }
   `;
 
@@ -86,31 +94,33 @@ const App: React.FC = () => {
             game={game}
           />
         </div>
-        <div className="mt-6 flex justify-center space-x-6">
-          <button
-            onClick={() => {
-              resetGame();
-              setGameMode(null); // Go back to mode selection
-            }}
-            className="px-6 py-3 bg-vibrant-violet hover:bg-hover-violet rounded-lg shadow-md flex items-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg"
-          >
-            <NewGameIcon />
-            Nueva Partida
-          </button>
-          <button
-            onClick={flipBoard}
-            className="px-6 py-3 bg-dusk-purple hover:bg-vibrant-violet rounded-lg shadow-md flex items-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg"
-          >
-            <RotateIcon />
-            Girar Tablero
-          </button>
-        </div>
+        <div className={controlsAndInfoPanelClasses}> {/* New container for buttons and info panel */}
+          <div className="mt-6 flex justify-center space-x-6">
+            <button
+              onClick={() => {
+                resetGame();
+                setGameMode(null); // Go back to mode selection
+              }}
+              className="px-6 py-3 bg-vibrant-violet hover:bg-hover-violet rounded-lg shadow-md flex items-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg"
+            >
+              <NewGameIcon />
+              Nueva Partida
+            </button>
+            <button
+              onClick={flipBoard}
+              className="px-6 py-3 bg-dusk-purple hover:bg-vibrant-violet rounded-lg shadow-md flex items-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg"
+            >
+              <RotateIcon />
+              Girar Tablero
+            </button>
+          </div>
 
-        <GameInfoPanel
-          status={status}
-          capturedPieces={capturedPieces}
-          isMobileOrTV={isMobile || isTV} // Pass prop to GameInfoPanel
-        />
+          <GameInfoPanel
+            status={status}
+            capturedPieces={capturedPieces}
+            isMobileOrTV={isMobile || isTV} // Pass prop to GameInfoPanel
+          />
+        </div>
       </div>
 
       {!(isMobile || isTV) && <Footer />}

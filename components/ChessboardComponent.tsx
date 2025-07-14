@@ -87,7 +87,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
     };
 
     const config: BoardConfig = {
-      draggable: !(isTouchscreen || isTV), // Disable drag-and-drop for touchscreen/TV
+      draggable: !isTouchscreen && !isTV, // Enable drag-and-drop only if not touchscreen and not TV
       position: fen,
       onDragStart: onDragStart,
       onDrop: onDrop,
@@ -95,7 +95,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({ fen, o
       pieceTheme: 'img/chesspieces/wikipedia/{piece}.png',
       showNotation: true,
       orientation: orientation,
-      onSquareClick: (isTouchscreen || isTV) ? onSquareClick : undefined, // Only add onSquareClick if not draggable
+      onSquareClick: (isTouchscreen || isTV) ? onSquareClick : undefined, // Only add onSquareClick if touchscreen or TV
     };
 
     // Initialize the board using the global Chessboard function from the script tag
