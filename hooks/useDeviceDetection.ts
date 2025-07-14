@@ -27,13 +27,14 @@ export const useDeviceDetection = (): DeviceInfo => {
 
       let isMobile = false;
       let isTV = false;
-      let width = window.innerWidth;
-      let height = window.innerHeight;
+      let platform = '';
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       try {
         const info = await Device.getInfo();
         const userAgent = navigator.userAgent.toLowerCase();
-        const platform = info.platform;
+        platform = info.platform;
 
         if (info.platform === 'ios' || info.platform === 'android') {
           // More robust detection for mobile and TV
@@ -77,8 +78,8 @@ export const useDeviceDetection = (): DeviceInfo => {
           width,
           height,
         },
-        userAgent: navigator.userAgent, // Capture userAgent
-        platform: platform, // Capture platform
+        userAgent: navigator.userAgent,
+        platform: platform,
       });
     };
 
