@@ -14,7 +14,13 @@ export enum PlayerType {
 }
 export type Orientation = 'white' | 'black';
 
-export type GameStatus = 'in-progress' | 'checkmate' | 'draw' | 'stalemate' | 'threefold-repetition' | 'insufficient-material';
+export type GameStatus =
+  | 'in-progress'
+  | 'checkmate'
+  | 'draw'
+  | 'stalemate'
+  | 'threefold-repetition'
+  | 'insufficient-material';
 
 export type CapturedPieces = {
   w: { [key: string]: number }; // e.g., { 'p': 5, 'n': 1 }
@@ -30,8 +36,20 @@ export type BoardConfig = {
   draggable?: boolean;
   dropOffBoard?: 'snapback' | 'trash';
   pieceTheme?: string | ((piece: string) => string);
-  onDragStart?: (source: string, piece: string, position: BoardPosition, orientation: Orientation) => boolean;
-  onDrop?: (source: string, target: string, piece: string, newPos: BoardPosition, oldPos: BoardPosition, orientation: Orientation) => 'snapback' | void;
+  onDragStart?: (
+    source: string,
+    piece: string,
+    position: BoardPosition,
+    orientation: Orientation,
+  ) => boolean;
+  onDrop?: (
+    source: string,
+    target: string,
+    piece: string,
+    newPos: BoardPosition,
+    oldPos: BoardPosition,
+    orientation: Orientation,
+  ) => 'snapback' | void;
   onSnapEnd?: () => void;
   onSquareClick?: (square: string) => void; // Add onSquareClick
   sparePieces?: boolean;

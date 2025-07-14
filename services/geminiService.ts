@@ -1,5 +1,4 @@
-
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI } from '@google/genai';
 
 const API_KEY = process.env.API_KEY;
 
@@ -33,18 +32,20 @@ export const makeAiMove = async (fen: string): Promise<string> => {
     const move = response.text?.trim();
 
     if (!move) {
-      throw new Error("Gemini devolvió un movimiento vacío o inválido.");
+      throw new Error('Gemini devolvió un movimiento vacío o inválido.');
     }
 
     // Basic validation of the move format
-    if (move.includes(" ") || move.length > 6) {
-      console.warn(`Gemini devolvió un formato de movimiento potencialmente inválido: "${move}". Intentando usarlo de todos modos.`);
+    if (move.includes(' ') || move.length > 6) {
+      console.warn(
+        `Gemini devolvió un formato de movimiento potencialmente inválido: "${move}". Intentando usarlo de todos modos.`,
+      );
     }
 
     return move;
   } catch (error) {
-    console.error("Error generating move from Gemini API:", error);
+    console.error('Error generating move from Gemini API:', error);
     // You could implement retry logic here
-    throw new Error("No se pudo obtener el movimiento de la IA.");
+    throw new Error('No se pudo obtener el movimiento de la IA.');
   }
 };

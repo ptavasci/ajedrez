@@ -1,12 +1,12 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
-import pluginPrettier from "eslint-plugin-prettier/recommended";
-import tseslint from "typescript-eslint";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import pluginReactConfig from 'eslint-plugin-react/configs/recommended.js';
+import pluginPrettier from 'eslint-plugin-prettier/recommended';
+import tseslint from 'typescript-eslint';
 
 export default [
   {
-    ignores: ["node_modules/", "android/", "dist/"],
+    ignores: ['node_modules/', 'android/', 'dist/'],
   },
   {
     languageOptions: {
@@ -20,7 +20,7 @@ export default [
           jsx: true,
         },
         ecmaVersion: 2021,
-        sourceType: "module",
+        sourceType: 'module',
       },
     },
   },
@@ -31,12 +31,13 @@ export default [
   {
     settings: {
       react: {
-        version: "detect",
+        version: 'detect',
       },
     },
     rules: {
-      "react/react-in-jsx-scope": "off",
-      "@typescript-eslint/explicit-module-boundary-types": "off",
+      'react/react-in-jsx-scope': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      'linebreak-style': ['off'],
     },
   },
 ];

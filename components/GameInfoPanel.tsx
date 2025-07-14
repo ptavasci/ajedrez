@@ -1,7 +1,5 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Player, CapturedPieces } from '../types';
-
 
 interface GameInfoPanelProps {
   status: {
@@ -11,10 +9,15 @@ interface GameInfoPanelProps {
   };
   capturedPieces: CapturedPieces;
   className?: string;
-  isMobileOrTV?: boolean; // New prop
+  isMobileOrTV?: boolean;
 }
 
-export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({ status, capturedPieces, className, isMobileOrTV }) => {
+export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({
+  status,
+  capturedPieces,
+  className,
+  isMobileOrTV,
+}) => {
   const statusColor = status.winner
     ? 'text-green-400'
     : status.isCheck
@@ -23,9 +26,10 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({ status, capturedPi
 
   const panelClasses = `
     bg-mountain-shadow p-6 rounded-lg shadow-xl border border-ridge-border flex flex-col
-    ${isMobileOrTV
-      ? 'w-full landscape:w-auto landscape:flex-1 landscape:max-h-full text-sm landscape:text-xs portrait:h-auto portrait:max-h-[40vh]' // Adjusted for mobile/TV portrait
-      : 'w-full lg:w-96 h-[50vh] lg:h-auto lg:max-h-[calc(100vh-200px)]'
+    ${
+      isMobileOrTV
+        ? 'w-full landscape:w-auto landscape:flex-1 landscape:max-h-full text-sm landscape:text-xs portrait:h-auto portrait:max-h-[40vh]' // Adjusted for mobile/TV portrait
+        : 'w-full lg:w-96 h-[50vh] lg:h-auto lg:max-h-[calc(100vh-200px)]'
     }
     ${className || ''}
   `;
@@ -61,7 +65,7 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({ status, capturedPi
       <div className="flex-grow overflow-y-auto">
         <p className={`${textClasses} mb-2`}>Piezas Capturadas</p>
         <div className="flex flex-wrap gap-2">
-          {Object.entries(capturedPieces.b).map(([pieceType, count]) => (
+          {Object.entries(capturedPieces.b).map(([pieceType, count]) =>
             Array.from({ length: count }).map((_, i) => (
               <img
                 key={`b${pieceType}${i}`}
@@ -69,9 +73,9 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({ status, capturedPi
                 alt={`Black ${pieceType}`}
                 className={imageClasses}
               />
-            ))
-          ))}
-          {Object.entries(capturedPieces.w).map(([pieceType, count]) => (
+            )),
+          )}
+          {Object.entries(capturedPieces.w).map(([pieceType, count]) =>
             Array.from({ length: count }).map((_, i) => (
               <img
                 key={`w${pieceType}${i}`}
@@ -79,8 +83,8 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({ status, capturedPi
                 alt={`White ${pieceType}`}
                 className={imageClasses}
               />
-            ))
-          ))}
+            )),
+          )}
         </div>
       </div>
     </div>
