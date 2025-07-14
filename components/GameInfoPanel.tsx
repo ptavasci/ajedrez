@@ -90,14 +90,14 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({
         </div>
       </div>
 
-      {/* userAgent && (
+      {/*userAgent && (
         <div className="mt-5">
           <p className={`${textClasses} mb-2`}>User Agent</p>
           <span className="inline-block bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
             {userAgent}
           </span>
         </div>
-      ) */}
+      )*/}
     </div>
   );
 };

@@ -46,7 +46,8 @@ export const useDeviceDetection = (): DeviceInfo => {
             info.model.toLowerCase().includes('android tv') ||
             userAgent.includes('crkey') ||
             userAgent.includes('aftb') ||
-            userAgent.includes('roku'); // Added 'roku' for Roku devices
+            userAgent.includes('globe') ||
+            userAgent.includes('roku');
           isMobile = !isTV && (info.platform === 'ios' || info.platform === 'android');
 
           // Refine isTouch for TV devices
@@ -58,7 +59,9 @@ export const useDeviceDetection = (): DeviceInfo => {
         console.warn('Capacitor Device plugin not available, defaulting to web detection.', e);
         const userAgent = navigator.userAgent.toLowerCase();
         isMobile = /android|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-        isTV = /googletv|android tv|firetv|tv|smarttv|appletv|crkey|aftb|roku|globe/i.test(userAgent); // Added 'roku'
+        isTV = /googletv|android tv|firetv|tv|smarttv|appletv|crkey|aftb|globe|roku/i.test(
+          userAgent,
+        );
         if (isTV) {
           isTouch = false; // Explicitly set to false for TVs
         }
