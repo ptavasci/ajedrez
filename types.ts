@@ -33,6 +33,7 @@ export type BoardConfig = {
   onDragStart?: (source: string, piece: string, position: BoardPosition, orientation: Orientation) => boolean;
   onDrop?: (source: string, target: string, piece: string, newPos: BoardPosition, oldPos: BoardPosition, orientation: Orientation) => 'snapback' | void;
   onSnapEnd?: () => void;
+  onSquareClick?: (square: string) => void; // Add onSquareClick
   sparePieces?: boolean;
   showNotation?: boolean;
 };

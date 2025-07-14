@@ -22,3 +22,14 @@
     --color-ridge-border: #4a3763;
     --font-sans: 'Sora', sans-serif;
 }
+
+/* Styles for chessboard.js square highlighting */
+.highlight-focused {
+    box-shadow: inset 0 0 3px 3px rgba(255, 255, 0, 0.8);
+    /* Yellow highlight for focused square */
+}
+
+.highlight-selected {
+    box-shadow: inset 0 0 3px 3px rgba(0, 255, 0, 0.8);
+    /* Green highlight for selected piece */
+}
