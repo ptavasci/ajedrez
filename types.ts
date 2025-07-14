@@ -64,4 +64,5 @@ export interface DeviceInfo {
     width: number;
     height: number;
   };
+  userAgent: string; // Add userAgent to DeviceInfo
 }

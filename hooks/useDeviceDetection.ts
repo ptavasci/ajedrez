@@ -11,6 +11,7 @@ export const useDeviceDetection = (): DeviceInfo => {
       width: 0,
       height: 0,
     },
+    userAgent: '', // Initialize userAgent
   });
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export const useDeviceDetection = (): DeviceInfo => {
         console.warn('Capacitor Device plugin not available, defaulting to web detection.', e);
         const userAgent = navigator.userAgent.toLowerCase();
         isMobile = /android|iphone|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
-        isTV = /googletv|android tv|firetv|tv|smarttv|appletv|crkey|aftb|roku/i.test(userAgent); // Added 'roku'
+        isTV = /googletv|android tv|firetv|tv|smarttv|appletv|crkey|aftb|roku|globe/i.test(userAgent); // Added 'roku'
         if (isTV) {
           isTouch = false; // Explicitly set to false for TVs
         }
@@ -71,6 +72,7 @@ export const useDeviceDetection = (): DeviceInfo => {
           width,
           height,
         },
+        userAgent: navigator.userAgent, // Capture userAgent
       });
     };
 

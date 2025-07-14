@@ -12,7 +12,7 @@ import { useDeviceDetection } from './hooks/useDeviceDetection'; // Import useDe
 
 const App: React.FC = () => {
   const [gameMode, setGameMode] = useState<'human-vs-ai' | 'human-vs-human' | null>(null);
-  const { isMobile, isTV } = useDeviceDetection(); // Use the hook
+  const { isMobile, isTV, userAgent } = useDeviceDetection(); // Use the hook and get userAgent
 
   const playerConfig = gameMode === 'human-vs-ai'
     ? { player1: PlayerType.Human, player2: PlayerType.AI }
@@ -117,6 +117,7 @@ const App: React.FC = () => {
             status={status}
             capturedPieces={capturedPieces}
             isMobileOrTV={isMobile || isTV} // Pass prop to GameInfoPanel
+            userAgent={userAgent} // Pass userAgent to GameInfoPanel
             className="flex-grow w-full" // Ensure it takes full width of its parent
           />
         </div>

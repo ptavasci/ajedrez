@@ -10,6 +10,7 @@ interface GameInfoPanelProps {
   capturedPieces: CapturedPieces;
   className?: string;
   isMobileOrTV?: boolean;
+  userAgent?: string; // Add userAgent prop
 }
 
 export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({
@@ -17,6 +18,7 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({
   capturedPieces,
   className,
   isMobileOrTV,
+  userAgent, // Destructure userAgent
 }) => {
   const statusColor = status.winner
     ? 'text-green-400'
@@ -87,6 +89,15 @@ export const GameInfoPanel: React.FC<GameInfoPanelProps> = ({
           )}
         </div>
       </div>
+
+      {/* userAgent && (
+        <div className="mt-5">
+          <p className={`${textClasses} mb-2`}>User Agent</p>
+          <span className="inline-block bg-blue-600 text-white text-xs px-3 py-1 rounded-full">
+            {userAgent}
+          </span>
+        </div>
+      ) */}
     </div>
   );
 };
