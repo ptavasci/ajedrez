@@ -47,7 +47,7 @@ const App: React.FC = () => {
   const mainContentClasses = `
     flex justify-center
     ${(isMobile || isTV)
-      ? 'flex-grow flex-col landscape:flex-row landscape:items-start landscape:gap-4 portrait:gap-4'
+      ? 'flex-grow flex-col landscape:flex-row landscape:items-center landscape:gap-4 portrait:gap-4'
       : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
     }
   `;
@@ -55,15 +55,15 @@ const App: React.FC = () => {
   const chessboardContainerClasses = `
     relative shadow-2xl rounded-lg overflow-hidden
     ${(isMobile || isTV)
-      ? 'aspect-square landscape:w-1/2 landscape:max-w-[50vh] landscape:max-h-[50vh] portrait:max-w-[90vw] portrait:max-h-[90vw] portrait:w-full'
+      ? 'aspect-square landscape:w-1/2 landscape:max-w-[60vh] landscape:max-h-[60vh] portrait:max-w-[90vw] portrait:max-h-[90vw] portrait:w-full'
       : 'w-full max-w-2xl lg:max-w-3xl'
     }
   `;
 
   const controlsAndInfoPanelClasses = `
-    flex flex-col items-start
+    flex flex-col items-center
     ${(isMobile || isTV)
-      ? 'landscape:w-1/2 landscape:h-full portrait:w-full portrait:px-4'
+      ? 'landscape:w-1/2 landscape:h-full landscape:overflow-y-auto portrait:w-full portrait:px-4'
       : ''
     }
   `;
@@ -93,20 +93,20 @@ const App: React.FC = () => {
           />
         </div>
         <div className={controlsAndInfoPanelClasses}> {/* New container for buttons and info panel */}
-          <div className="flex justify-center space-x-6 mb-6">
+          <div className="flex flex-col space-y-4 mb-6 w-full max-w-xs"> {/* Adjusted for alignment */}
             <button
               onClick={() => {
                 resetGame();
                 setGameMode(null); // Go back to mode selection
               }}
-              className="px-6 py-3 bg-vibrant-violet hover:bg-hover-violet rounded-lg shadow-md flex items-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg"
+              className="px-6 py-3 bg-vibrant-violet hover:bg-hover-violet rounded-lg shadow-md flex items-center justify-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg w-full"
             >
               <NewGameIcon />
               Nueva Partida
             </button>
             <button
               onClick={flipBoard}
-              className="px-6 py-3 bg-dusk-purple hover:bg-vibrant-violet rounded-lg shadow-md flex items-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg"
+              className="px-6 py-3 bg-dusk-purple hover:bg-vibrant-violet rounded-lg shadow-md flex items-center justify-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg w-full"
             >
               <RotateIcon />
               Girar Tablero
@@ -117,7 +117,7 @@ const App: React.FC = () => {
             status={status}
             capturedPieces={capturedPieces}
             isMobileOrTV={isMobile || isTV} // Pass prop to GameInfoPanel
-            className="flex-grow"
+            className="flex-grow w-full max-w-xs" // Added max-w-xs for alignment
           />
         </div>
       </div>
