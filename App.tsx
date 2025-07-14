@@ -5,7 +5,7 @@ import { ChessboardComponent } from './components/ChessboardComponent';
 import { GameInfoPanel } from './components/GameInfoPanel';
 import { NewGameIcon } from './components/icons/NewGameIcon';
 import { RotateIcon } from './components/icons/RotateIcon';
-import { PlayerType, Orientation } from './types';
+import { PlayerType } from './types';
 import { GameModeSelection } from './components/GameModeSelection';
 import { Footer } from './components/Footer';
 import { useDeviceDetection } from './hooks/useDeviceDetection'; // Import useDeviceDetection
@@ -14,21 +14,21 @@ const App: React.FC = () => {
   const [gameMode, setGameMode] = useState<'human-vs-ai' | 'human-vs-human' | null>(null);
   const { isMobile, isTV, userAgent } = useDeviceDetection(); // Use the hook and get userAgent
 
-  const playerConfig = gameMode === 'human-vs-ai'
-    ? { player1: PlayerType.Human, player2: PlayerType.AI }
-    : { player1: PlayerType.Human, player2: PlayerType.Human };
+  const playerConfig =
+    gameMode === 'human-vs-ai'
+      ? { player1: PlayerType.Human, player2: PlayerType.AI }
+      : { player1: PlayerType.Human, player2: PlayerType.Human };
 
   const {
     game,
     fen,
     status,
     orientation,
-    playerTurn,
     handleMove,
     resetGame,
     flipBoard,
     isAiThinking,
-    capturedPieces // Add capturedPieces
+    capturedPieces, // Add capturedPieces
   } = useChessGame(playerConfig);
 
   const handleSelectMode = (mode: 'human-vs-ai' | 'human-vs-human') => {
@@ -40,40 +40,47 @@ const App: React.FC = () => {
   }
 
   const appContainerClasses = `
-    bg-night-sky text-star-white flex flex-col items-center justify-center font-sans
-    ${(isMobile || isTV) ? 'h-screen w-screen p-0' : 'h-screen p-6'}
+    bg-night-sky text-star-white flex flex-col items-center justify-between font-sans
+    ${isMobile || isTV ? 'h-screen w-screen p-0' : 'h-screen p-6'}
+    ${isMobile || isTV ? 'landscape:justify-between' : ''}
   `;
 
   const mainContentClasses = `
     flex justify-center
-    ${(isMobile || isTV)
-      ? 'flex-grow flex-col landscape:flex-row landscape:items-start landscape:gap-4 portrait:gap-4'
-      : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
+    ${
+      isMobile || isTV
+        ? 'flex-grow flex-col landscape:flex-row landscape:items-center landscape:gap-4 portrait:gap-4'
+        : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
     }
   `;
 
   const chessboardContainerClasses = `
     relative shadow-2xl rounded-lg overflow-hidden
-    ${(isMobile || isTV)
-      ? 'aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:max-w-[90vw] portrait:max-h-[90vw] portrait:w-full'
-      : 'w-full max-w-2xl lg:max-w-3xl'
+    ${
+      isMobile || isTV
+        ? 'aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:max-w-[90vw] portrait:max-h-[90vw] portrait:w-full'
+        : 'w-full max-w-2xl lg:max-w-3xl'
     }
+    ${isMobile || isTV ? 'landscape:min-h-[400px] landscape:min-w-[400px]' : ''}
   `;
 
   const controlsAndInfoPanelClasses = `
     flex flex-col items-center
-    ${(isMobile || isTV)
-      ? 'landscape:flex-1 landscape:h-[calc(100vh-120px)] landscape:overflow-y-auto portrait:w-full portrait:px-4'
-      : ''
+    ${
+      isMobile || isTV
+        ? 'landscape:flex-1 landscape:h-[calc(100vh-120px)] landscape:overflow-y-auto portrait:w-full portrait:px-4 landscape:justify-between'
+        : ''
     }
   `;
 
   return (
     <div className={appContainerClasses}>
-      <header className={`mb-6 text-center ${(isMobile || isTV) ? 'pt-4' : ''}`}>
+      <header className={`text-center ${isMobile || isTV ? 'pt-4 mb-4' : 'mb-6'}`}>
         <h1 className="text-5xl font-bold tracking-wider text-star-white">Ajedrez</h1>
         <p className="text-xl text-lavender-mist">
-          {gameMode === 'human-vs-ai' ? 'Juega contra un oponente de IA avanzado' : 'Juega contra un amigo en el mismo dispositivo'}
+          {gameMode === 'human-vs-ai'
+            ? 'Juega contra un oponente de IA avanzado'
+            : 'Juega contra un amigo en el mismo dispositivo'}
         </p>
       </header>
 
@@ -92,8 +99,10 @@ const App: React.FC = () => {
             game={game}
           />
         </div>
-        <div className={controlsAndInfoPanelClasses}> {/* New container for buttons and info panel */}
-          <div className="flex justify-center space-x-6 mb-6 w-full"> {/* Buttons side-by-side */}
+        <div className={controlsAndInfoPanelClasses}>
+          {/* New container for buttons and info panel */}
+          <div className="flex justify-center space-x-6 w-full mb-4">
+            {/* Buttons side-by-side */}
             <button
               onClick={() => {
                 resetGame();
