@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Chess, Piece } from 'chess.js';
 import { Player, PlayerType, Orientation, CapturedPieces } from '../types';
@@ -55,7 +54,7 @@ export const useChessGame = (options: ChessGameOptions) => {
       isCheck: game.isCheck(),
       winner,
       reason,
-      displayMessage // New field
+      displayMessage, // New field
     };
   }, [game, playerTurn]);
 
@@ -63,7 +62,7 @@ export const useChessGame = (options: ChessGameOptions) => {
     const history = game.history({ verbose: true });
     const captured: CapturedPieces = { w: {}, b: {} };
 
-    history.forEach(move => {
+    history.forEach((move) => {
       if (move.captured) {
         const capturedColor = move.color === 'w' ? 'b' : 'w'; // If white moved, they captured a black piece
         captured[capturedColor][move.captured] = (captured[capturedColor][move.captured] || 0) + 1;
@@ -84,12 +83,12 @@ export const useChessGame = (options: ChessGameOptions) => {
         game.move(aiMove);
         setFen(game.fen());
       } catch (moveError) {
-        console.error("AI made an invalid move:", aiMove, moveError);
+        console.error('AI made an invalid move:', aiMove, moveError);
         // Handle invalid move from AI, maybe try again or show an error
       }
     } catch (error) {
-      console.error("Error getting AI move:", error);
-      alert("Ocurrió un error al obtener el movimiento de la IA. Por favor, inténtalo de nuevo.");
+      console.error('Error getting AI move:', error);
+      alert('Ocurrió un error al obtener el movimiento de la IA. Por favor, inténtalo de nuevo.');
     } finally {
       setIsAiThinking(false);
     }
@@ -105,16 +104,19 @@ export const useChessGame = (options: ChessGameOptions) => {
     }
   }, [playerTurn, status.isCheckmate, status.isDraw, players, isAiThinking, triggerAiMove]);
 
-  const handleMove = useCallback((move: { from: string; to: string; promotion?: string }) => {
-    try {
-      game.move(move);
-      setFen(game.fen());
-      return true;
-    } catch (e) {
-      // Invalid move, chess.js threw an error
-      return false;
-    }
-  }, [game]);
+  const handleMove = useCallback(
+    (move: { from: string; to: string; promotion?: string }) => {
+      try {
+        game.move(move);
+        setFen(game.fen());
+        return true;
+      } catch (e) {
+        // Invalid move, chess.js threw an error
+        return false;
+      }
+    },
+    [game],
+  );
 
   const resetGame = () => {
     game.reset();
@@ -124,7 +126,7 @@ export const useChessGame = (options: ChessGameOptions) => {
   };
 
   const flipBoard = () => {
-    setOrientation(prev => (prev === 'white' ? 'black' : 'white'));
+    setOrientation((prev) => (prev === 'white' ? 'black' : 'white'));
   };
 
   return {
