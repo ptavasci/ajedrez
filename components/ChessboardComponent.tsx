@@ -7,6 +7,9 @@ interface ChessboardComponentProps {
   onMove: (move: { from: string; to: string; promotion?: string }) => boolean;
   orientation: Orientation;
   game: any; // The chess.js instance
+  isTV: boolean; // New prop for TV mode
+  isFocused: boolean; // New prop to indicate if the board is currently focused
+  onExitBoardFocus: () => void; // Callback to exit board focus
 }
 
 export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
@@ -14,12 +17,15 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
   onMove,
   orientation,
   game,
+  isTV, // Destructure new prop
+  isFocused, // Destructure new prop
+  onExitBoardFocus, // Destructure new prop
 }) => {
   const boardRef = useRef<HTMLDivElement>(null);
   const boardInstance = useRef<any>(null);
   const [selectedSquare, setSelectedSquare] = useState<string | null>(null);
   const [focusedSquare, setFocusedSquare] = useState<string | null>(null); // New state for TV navigation
-  const { isTouch, isTV } = useDeviceDetection();
+  const { isTouch } = useDeviceDetection(); // isTV is now passed as a prop
 
   // onSquareClick handler for tap-to-move and D-pad selection
   const onSquareClick = (square: string) => {
@@ -131,7 +137,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
 
   // Effect for TV D-pad navigation
   useEffect(() => {
-    if (!isTV || !boardInstance.current) {
+    if (!isTV || !boardInstance.current || !isFocused) {
       return;
     }
 
@@ -212,6 +218,10 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
             onSquareClick(focusedSquare);
           }
           break;
+        case 'Escape':
+        case 'Backspace':
+          onExitBoardFocus();
+          break;
         default:
           return; // Do not prevent default for other keys
       }
@@ -219,8 +229,8 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
       if (nextSquare && nextSquare !== focusedSquare) {
         setFocusedSquare(nextSquare);
         event.preventDefault(); // Prevent default scroll behavior
-      } else if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent default action for Enter
+      } else if (event.key === 'Enter' || event.key === 'Escape' || event.key === 'Backspace') {
+        event.preventDefault(); // Prevent default action for Enter, Escape, Backspace
       }
     };
 
@@ -229,7 +239,7 @@ export const ChessboardComponent: React.FC<ChessboardComponentProps> = ({
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isTV, focusedSquare, orientation, onSquareClick]); // Added onSquareClick to dependencies
+  }, [isTV, focusedSquare, orientation, onSquareClick, isFocused, onExitBoardFocus]); // Added onSquareClick, isFocused, onExitBoardFocus to dependencies
 
   // Effect to highlight focused and selected squares
   useEffect(() => {

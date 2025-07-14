@@ -25,11 +25,20 @@
 
 /* Styles for chessboard.js square highlighting */
 .highlight-focused {
-    box-shadow: inset 0 0 3px 3px rgba(255, 255, 0, 0.8);
-    /* Yellow highlight for focused square */
+    box-shadow: inset 0 0 0 4px #8a2be2;
+    /* Vibrant violet border */
+    outline: none;
+    /* Remove default outline */
 }
 
 .highlight-selected {
-    box-shadow: inset 0 0 3px 3px rgba(0, 255, 0, 0.8);
-    /* Green highlight for selected piece */
+    background-color: rgba(138, 43, 226, 0.6);
+    /* Semi-transparent vibrant violet */
+}
+
+/* Ensure buttons are focusable and have a visible focus indicator */
+button:focus-visible {
+    outline: 4px solid #8a2be2;
+    /* Vibrant violet outline for focus */
+    outline-offset: 2px;
 }
