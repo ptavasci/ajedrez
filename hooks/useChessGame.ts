@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { Chess, Piece } from 'chess.js';
+import { Chess, Move } from 'chess.js';
 import { Player, PlayerType, Orientation, CapturedPieces } from '../types';
 import { makeAiMove } from '../services/geminiService';
+import { useSound } from './useSound';
 
 interface ChessGameOptions {
   player1: PlayerType;
@@ -13,6 +14,8 @@ export const useChessGame = (options: ChessGameOptions) => {
   const [fen, setFen] = useState(() => game.fen());
   const [orientation, setOrientation] = useState<Orientation>('white');
   const [isAiThinking, setIsAiThinking] = useState(false);
+
+  const captureSound = useSound('/sounds/capture.mp3');
 
   const playerTurn: Player = useMemo(() => game.turn(), [fen]);
   const players = useMemo(() => ({ w: options.player1, b: options.player2 }), [options]);
@@ -107,15 +110,18 @@ export const useChessGame = (options: ChessGameOptions) => {
   const handleMove = useCallback(
     (move: { from: string; to: string; promotion?: string }) => {
       try {
-        game.move(move);
+        const result: Move = game.move(move);
         setFen(game.fen());
+        if (result.captured) {
+          captureSound.play();
+        }
         return true;
-      } catch (e) {
+      } catch {
         // Invalid move, chess.js threw an error
         return false;
       }
     },
-    [game],
+    [game, captureSound],
   );
 
   const resetGame = () => {

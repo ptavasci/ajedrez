@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useDeviceDetection } from '../hooks/useDeviceDetection';
+import { useSound } from '../hooks/useSound';
 import { Footer } from './Footer';
 
 interface GameModeSelectionProps {
@@ -9,13 +10,13 @@ interface GameModeSelectionProps {
 export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMode }) => {
   const humanVsHumanButtonRef = useRef<HTMLButtonElement>(null);
   const { isTV } = useDeviceDetection();
+  const { play: playSound } = useSound('/sounds/navigation.mp3');
 
   useEffect(() => {
     if (isTV) {
-      onSelectMode('human-vs-human');
       humanVsHumanButtonRef.current?.focus();
     }
-  }, [onSelectMode, isTV]);
+  }, [isTV]);
   return (
     <div className="h-screen w-full bg-night-sky text-star-white flex flex-col items-center justify-center p-4 font-sans flex-grow">
       <header className="mb-6 text-center">
@@ -34,6 +35,7 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
             } else if (isTV && e.key === 'ArrowRight') {
               /* No action for ArrowRight to restrict navigation in TV mode */
             } else if (!isTV && e.key === 'ArrowRight') {
+              playSound();
               (e.currentTarget.nextElementSibling as HTMLElement)?.focus();
             }
           }}
@@ -53,6 +55,7 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
             } else if (isTV && e.key === 'ArrowLeft') {
               /* No action for ArrowLeft to restrict navigation in TV mode */
             } else if (!isTV && e.key === 'ArrowLeft') {
+              playSound();
               (e.currentTarget.previousElementSibling as HTMLElement)?.focus();
             }
           }}

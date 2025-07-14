@@ -8,7 +8,8 @@ import { RotateIcon } from './components/icons/RotateIcon';
 import { PlayerType } from './types';
 import { GameModeSelection } from './components/GameModeSelection';
 import { Footer } from './components/Footer';
-import { useDeviceDetection } from './hooks/useDeviceDetection'; // Import useDeviceDetection
+import { useDeviceDetection } from './hooks/useDeviceDetection';
+import { useSound } from './hooks/useSound';
 
 const App: React.FC = () => {
   const [gameMode, setGameMode] = useState<'human-vs-ai' | 'human-vs-human' | null>(null);
@@ -31,8 +32,11 @@ const App: React.FC = () => {
     capturedPieces, // Add capturedPieces
   } = useChessGame(playerConfig);
 
+  const gameStartSound = useSound('/sounds/game_start.mp3');
+
   const handleSelectMode = (mode: 'human-vs-ai' | 'human-vs-human') => {
     setGameMode(mode);
+    gameStartSound.play();
   };
 
   if (!gameMode) {
