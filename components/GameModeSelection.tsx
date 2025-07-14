@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useDeviceDetection } from '../hooks/useDeviceDetection';
 import { Footer } from './Footer';
 
 interface GameModeSelectionProps {
@@ -6,6 +7,15 @@ interface GameModeSelectionProps {
 }
 
 export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMode }) => {
+  const humanVsHumanButtonRef = useRef<HTMLButtonElement>(null);
+  const { isTV } = useDeviceDetection();
+
+  useEffect(() => {
+    if (isTV) {
+      onSelectMode('human-vs-human');
+      humanVsHumanButtonRef.current?.focus();
+    }
+  }, [onSelectMode, isTV]);
   return (
     <div className="h-screen w-full bg-night-sky text-star-white flex flex-col items-center justify-center p-4 font-sans flex-grow">
       <header className="mb-6 text-center">
@@ -21,7 +31,9 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               onSelectMode('human-vs-ai');
-            } else if (e.key === 'ArrowRight') {
+            } else if (isTV && e.key === 'ArrowRight') {
+              /* No action for ArrowRight to restrict navigation in TV mode */
+            } else if (!isTV && e.key === 'ArrowRight') {
               (e.currentTarget.nextElementSibling as HTMLElement)?.focus();
             }
           }}
@@ -33,11 +45,14 @@ export const GameModeSelection: React.FC<GameModeSelectionProps> = ({ onSelectMo
         </button>
 
         <button
+          ref={humanVsHumanButtonRef}
           onClick={() => onSelectMode('human-vs-human')}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               onSelectMode('human-vs-human');
-            } else if (e.key === 'ArrowLeft') {
+            } else if (isTV && e.key === 'ArrowLeft') {
+              /* No action for ArrowLeft to restrict navigation in TV mode */
+            } else if (!isTV && e.key === 'ArrowLeft') {
               (e.currentTarget.previousElementSibling as HTMLElement)?.focus();
             }
           }}
