@@ -65,4 +65,5 @@ export interface DeviceInfo {
     height: number;
   };
   userAgent: string; // Add userAgent to DeviceInfo
+  platform: string; // Add platform to DeviceInfo
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { useDeviceDetection } from '../hooks/useDeviceDetection';
 
 export const Footer: React.FC = () => {
-  const { isMobile, isTouch, isTV, resolution } = useDeviceDetection();
+  const { isMobile, isTouch, isTV, resolution, platform } = useDeviceDetection();
 
   return (
     <footer className="mt-8 text-center text-lavender-mist text-sm opacity-75 flex justify-center items-center">
@@ -21,6 +21,7 @@ export const Footer: React.FC = () => {
         <span className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">
           {isTV ? 'TV' : 'No TV'}
         </span>
+        <span className="bg-gray-700 text-white px-2 py-1 rounded-full text-xs">{platform}</span>
       </div>
     </footer>
   );

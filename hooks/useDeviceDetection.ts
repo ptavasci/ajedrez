@@ -12,6 +12,7 @@ export const useDeviceDetection = (): DeviceInfo => {
       height: 0,
     },
     userAgent: '', // Initialize userAgent
+    platform: '', // Initialize platform
   });
 
   useEffect(() => {
@@ -32,6 +33,7 @@ export const useDeviceDetection = (): DeviceInfo => {
       try {
         const info = await Device.getInfo();
         const userAgent = navigator.userAgent.toLowerCase();
+        const platform = info.platform;
 
         if (info.platform === 'ios' || info.platform === 'android') {
           // More robust detection for mobile and TV
@@ -76,6 +78,7 @@ export const useDeviceDetection = (): DeviceInfo => {
           height,
         },
         userAgent: navigator.userAgent, // Capture userAgent
+        platform: platform, // Capture platform
       });
     };
 
