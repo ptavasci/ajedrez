@@ -94,6 +94,10 @@ const App: React.FC = () => {
             flipBoardButtonRef.current?.focus();
             event.preventDefault();
           }
+        } else if (event.key === 'Enter') {
+            // When enter is pressed on a button, focus the board
+            setCurrentFocusArea('board');
+            event.preventDefault();
         } else if (event.key === 'Backspace' || event.key === 'Escape') {
           setCurrentFocusArea('board');
           event.preventDefault();
