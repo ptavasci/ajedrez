@@ -7,6 +7,7 @@ import { useDeviceDetection } from './hooks/useDeviceDetection';
 import { useSound } from './hooks/useSound';
 import { Header } from './components/Header';
 import { MainContent } from './components/MainContent';
+import { App as CapacitorApp } from '@capacitor/app';
 
 const App: React.FC = () => {
   const [gameMode, setGameMode] = useState<'human-vs-ai' | 'human-vs-human' | null>(null);
@@ -40,7 +41,45 @@ const App: React.FC = () => {
   const handleSelectMode = (mode: 'human-vs-ai' | 'human-vs-human') => {
     setGameMode(mode);
     gameStartSound.play();
+    // Add a history entry to prevent the browser back button from leaving the page
+    window.history.pushState({ page: 'game' }, '');
   };
+
+  // Effect for browser back button
+  useEffect(() => {
+    const handlePopState = (event: PopStateEvent) => {
+      if (gameMode) {
+        event.preventDefault();
+        setGameMode(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [gameMode]);
+
+  // Effect for Capacitor back button (Android)
+  useEffect(() => {
+    if (isMobile || isTV) {
+      const listener = CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+        if (!canGoBack) {
+          // If there's no web history, we might exit the app
+          if (window.confirm('¿Deseas abandonar la partida?')) {
+            setGameMode(null);
+          } else {
+            // Do nothing, stay in the app
+          }
+        } else {
+          // If there is web history, let the browser handle it
+          window.history.back();
+        }
+      });
+
+      return () => {
+        listener.remove();
+      };
+    }
+  }, [isMobile, isTV]);
 
   useEffect(() => {
     if (isTV && currentFocusArea === 'buttons') {
