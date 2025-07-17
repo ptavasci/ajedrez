@@ -11,13 +11,14 @@ import { App as CapacitorApp } from '@capacitor/app';
 
 const App: React.FC = () => {
   const [gameMode, setGameMode] = useState<'human-vs-ai' | 'human-vs-human' | null>(null);
-  const { isMobile, isTV, userAgent } = useDeviceDetection();
+  const { isMobile, isTouch, isTV, userAgent, platform } = useDeviceDetection();
   const [currentFocusArea, setCurrentFocusArea] = useState<'board' | 'buttons' | null>(
     isTV ? 'board' : null,
   );
 
-  const newGameButtonRef = useRef<HTMLButtonElement>(null);
-  const flipBoardButtonRef = useRef<HTMLButtonElement>(null);
+  const newGameButtonRef = useRef<HTMLButtonElement | null>(null);
+  const flipBoardButtonRef = useRef<HTMLButtonElement | null>(null);
+  const backButtonListenerRef = useRef<any>(null); // New ref for Capacitor back button listener
 
   const playerConfig =
     gameMode === 'human-vs-ai'
@@ -45,6 +46,10 @@ const App: React.FC = () => {
     window.history.pushState({ page: 'game' }, '');
   };
 
+  useEffect(() => {
+    console.log('Device Detection:', { isMobile, isTouch, isTV, userAgent, platform });
+  }, [isMobile, isTouch, isTV, userAgent, platform]);
+
   // Effect for browser back button
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
@@ -61,22 +66,22 @@ const App: React.FC = () => {
   // Effect for Capacitor back button (Android)
   useEffect(() => {
     if (isMobile || isTV) {
-      const listener = CapacitorApp.addListener('backButton', ({ canGoBack }) => {
+      CapacitorApp.addListener('backButton', ({ canGoBack }) => {
         if (!canGoBack) {
-          // If there's no web history, we might exit the app
           if (window.confirm('¿Deseas abandonar la partida?')) {
             setGameMode(null);
-          } else {
-            // Do nothing, stay in the app
           }
         } else {
-          // If there is web history, let the browser handle it
           window.history.back();
         }
+      }).then(listener => {
+        backButtonListenerRef.current = listener;
       });
 
       return () => {
-        listener.remove();
+        if (backButtonListenerRef.current) {
+          backButtonListenerRef.current.remove();
+        }
       };
     }
   }, [isMobile, isTV]);
@@ -115,7 +120,7 @@ const App: React.FC = () => {
 
   const appContainerClasses = `
     bg-night-sky text-star-white flex flex-col items-center justify-between font-sans
-    ${isMobile || isTV ? 'h-screen w-screen p-0' : 'h-screen p-6'}
+    ${isMobile || isTV ? 'h-screen p-0' : 'h-screen p-6'}
     ${isMobile || isTV ? 'landscape:justify-between' : ''}
   `;
 

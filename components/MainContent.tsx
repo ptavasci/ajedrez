@@ -17,12 +17,12 @@ interface MainContentProps {
   isTV: boolean;
   currentFocusArea: 'board' | 'buttons' | null;
   setCurrentFocusArea: (area: 'board' | 'buttons' | null) => void;
-  newGameButtonRef: React.RefObject<HTMLButtonElement>;
-  flipBoardButtonRef: React.RefObject<HTMLButtonElement>;
+  newGameButtonRef: React.RefObject<HTMLButtonElement | null>;
+  flipBoardButtonRef: React.RefObject<HTMLButtonElement | null>;
   resetGame: () => void;
   setGameMode: (mode: 'human-vs-ai' | 'human-vs-human' | null) => void;
   flipBoard: () => void;
-  status: { displayMessage: string; winner: Player | null; isCheck: boolean; };
+  status: { displayMessage: string; winner: Player | null; isCheck: boolean };
   capturedPieces: CapturedPieces;
   userAgent: string | undefined;
 }
@@ -51,7 +51,7 @@ export const MainContent: React.FC<MainContentProps> = ({
     flex justify-center
     ${
       isMobileOrTV
-        ? 'flex-grow flex-col landscape:flex-row landscape:items-center landscape:gap-4 portrait:gap-4'
+        ? 'flex-grow flex-col landscape:flex-row landscape:items-center landscape:gap-4 portrait:gap-4 w-full mx-auto'
         : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
     }
   `;
@@ -60,7 +60,7 @@ export const MainContent: React.FC<MainContentProps> = ({
     relative shadow-2xl rounded-lg overflow-hidden
     ${
       isMobileOrTV
-        ? 'aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:max-w-[90vw] portrait:max-h-[90vh] portrait:w-full portrait:h-auto mx-auto'
+        ? 'flex flex-col items-center justify-center aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:w-[min(90vw,90vh)] portrait:h-[min(90vw,90vh)] mx-auto'
         : 'w-full max-w-2xl lg:max-w-3xl'
     }
     ${isMobileOrTV ? 'landscape:min-h-[400px] landscape:min-w-[400px]' : ''}
