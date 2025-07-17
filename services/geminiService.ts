@@ -9,7 +9,7 @@ if (!API_KEY) {
 }
 
 const ai = new GoogleGenAI({ apiKey: API_KEY! });
-const model = 'gemini-2.5-flash-preview-04-17';
+const model = 'gemini-2.5-flash';
 
 const systemInstruction = `Eres un oponente de ajedrez de clase mundial, un gran maestro. Tu nombre es Gemini-Chess. Se te proporcionará la posición actual del tablero en formato FEN. Tu tarea es analizar la posición y responder únicamente con el mejor movimiento posible para el jugador actual en Notación Algebraica Estándar (SAN). No proporciones ninguna explicación, comentario ni ningún otro texto. Tu respuesta completa debe ser solo el movimiento. Por ejemplo: e4`;
 
