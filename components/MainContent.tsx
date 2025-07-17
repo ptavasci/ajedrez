@@ -4,14 +4,14 @@ import { GameInfoPanel } from './GameInfoPanel';
 import { Controls } from './Controls';
 import { AiThinkingIndicator } from './AiThinkingIndicator';
 import { Chess } from 'chess.js';
-import { CapturedPieces } from '../types';
+import { CapturedPieces, Player } from '../types';
 
 interface MainContentProps {
   isMobileOrTV: boolean;
   isAiThinking: boolean;
   gameMode: 'human-vs-ai' | 'human-vs-human' | null;
   fen: string;
-  handleMove: (move: string | { from: string; to: string; promotion?: string }) => void;
+  handleMove: (move: { from: string; to: string; promotion?: string }) => boolean;
   orientation: 'white' | 'black';
   game: Chess;
   isTV: boolean;
@@ -22,7 +22,7 @@ interface MainContentProps {
   resetGame: () => void;
   setGameMode: (mode: 'human-vs-ai' | 'human-vs-human' | null) => void;
   flipBoard: () => void;
-  status: string;
+  status: { displayMessage: string; winner: Player | null; isCheck: boolean; };
   capturedPieces: CapturedPieces;
   userAgent: string | undefined;
 }
@@ -60,7 +60,7 @@ export const MainContent: React.FC<MainContentProps> = ({
     relative shadow-2xl rounded-lg overflow-hidden
     ${
       isMobileOrTV
-        ? 'aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:max-w-[90vw] portrait:max-h-[90vw] portrait:w-full'
+        ? 'aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:max-w-[90vw] portrait:max-h-[90vh] portrait:w-full portrait:h-auto mx-auto'
         : 'w-full max-w-2xl lg:max-w-3xl'
     }
     ${isMobileOrTV ? 'landscape:min-h-[400px] landscape:min-w-[400px]' : ''}

@@ -31,7 +31,7 @@ export const Controls: React.FC<ControlsProps> = ({
         }}
         onFocus={() => isTV && setCurrentFocusArea('buttons')}
         tabIndex={isTV ? 0 : -1}
-        className="px-6 py-3 bg-vibrant-violet hover:bg-hover-violet rounded-lg shadow-md flex items-center justify-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg flex-1"
+        className="px-6 py-3 bg-vibrant-violet hover:bg-hover-violet rounded-lg shadow-md flex items-center justify-center gap-3 transition-colors duration-200 text-star-white font-semibold text-sm flex-1"
       >
         <NewGameIcon />
         Nueva Partida
@@ -41,7 +41,7 @@ export const Controls: React.FC<ControlsProps> = ({
         onClick={flipBoard}
         onFocus={() => isTV && setCurrentFocusArea('buttons')}
         tabIndex={isTV ? 0 : -1}
-        className="px-6 py-3 bg-dusk-purple hover:bg-vibrant-violet rounded-lg shadow-md flex items-center justify-center gap-3 transition-colors duration-200 text-star-white font-semibold text-lg flex-1"
+        className="px-6 py-3 bg-dusk-purple hover:bg-vibrant-violet rounded-lg shadow-md flex items-center justify-center gap-3 transition-colors duration-200 text-star-white font-semibold text-sm flex-1"
       >
         <RotateIcon />
         Girar Tablero
