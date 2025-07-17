@@ -16,6 +16,7 @@ export const useChessGame = (options: ChessGameOptions) => {
   const [isAiThinking, setIsAiThinking] = useState(false);
 
   const captureSound = useSound('/sounds/capture.mp3');
+  const tapSound = useSound('/sounds/tap.mp3');
 
   const playerTurn: Player = useMemo(() => game.turn(), [fen]);
   const players = useMemo(() => ({ w: options.player1, b: options.player2 }), [options]);
@@ -112,6 +113,7 @@ export const useChessGame = (options: ChessGameOptions) => {
       try {
         const result: Move = game.move(move);
         setFen(game.fen());
+        tapSound.play(); // Play tap sound on any successful move
         if (result.captured) {
           captureSound.play();
         }
@@ -121,7 +123,7 @@ export const useChessGame = (options: ChessGameOptions) => {
         return false;
       }
     },
-    [game, captureSound],
+    [game, captureSound, tapSound],
   );
 
   const resetGame = () => {
