@@ -51,7 +51,7 @@ export const MainContent: React.FC<MainContentProps> = ({
     flex justify-center
     ${
       isMobileOrTV
-        ? 'flex-grow flex-col landscape:flex-row landscape:items-center landscape:gap-4 portrait:gap-4 w-full mx-auto'
+        ? 'flex-grow flex-col landscape:flex-row landscape:items-start landscape:gap-4 portrait:gap-4 w-full mx-auto px-4'
         : 'w-full max-w-6xl mx-auto flex-col lg:flex-row gap-8 lg:items-start'
     }
   `;
@@ -60,19 +60,16 @@ export const MainContent: React.FC<MainContentProps> = ({
     relative shadow-2xl rounded-lg overflow-hidden
     ${
       isMobileOrTV
-        ? 'flex flex-col items-center justify-center aspect-square landscape:flex-none landscape:h-[calc(100vh-120px)] landscape:w-[calc(100vh-120px)] portrait:w-[min(90vw,90vh)] portrait:h-[min(90vw,90vh)] mx-auto'
+        ? 'flex flex-col items-center justify-center aspect-square landscape:flex-none landscape:w-[45vw] landscape:h-[45vw] landscape:max-h-[calc(100vh-150px)] landscape:max-w-[calc(100vh-150px)] portrait:w-[min(90vw,90vh)] portrait:h-[min(90vw,90vh)] mx-auto'
         : 'w-full max-w-2xl lg:max-w-3xl'
     }
-    ${isMobileOrTV ? 'landscape:min-h-[400px] landscape:min-w-[400px]' : ''}
+    ${isMobileOrTV ? 'landscape:min-h-[250px] landscape:min-w-[250px]' : ''}
   `;
 
   const controlsAndInfoPanelClasses = `
     flex flex-col items-center
-    ${
-      isMobileOrTV
-        ? 'landscape:flex-1 landscape:h-[calc(100vh-120px)] landscape:overflow-y-auto portrait:w-full portrait:px-4 landscape:justify-between'
-        : ''
-    }
+    ${isMobileOrTV ? 'landscape:flex-1 landscape:overflow-y-auto portrait:w-full portrait:px-4 landscape:justify-between' : ''}
+    ${!isMobileOrTV ? 'flex-grow h-full' : ''}
   `;
 
   return (
@@ -93,6 +90,13 @@ export const MainContent: React.FC<MainContentProps> = ({
         />
       </div>
       <div className={controlsAndInfoPanelClasses}>
+        <GameInfoPanel
+          status={status}
+          capturedPieces={capturedPieces}
+          isMobileOrTV={isMobileOrTV}
+          userAgent={userAgent}
+          className={`flex-grow w-full ${!isMobileOrTV ? 'mb-4' : ''}`}
+        />
         <Controls
           newGameButtonRef={newGameButtonRef}
           flipBoardButtonRef={flipBoardButtonRef}
@@ -101,13 +105,6 @@ export const MainContent: React.FC<MainContentProps> = ({
           flipBoard={flipBoard}
           isTV={isTV}
           setCurrentFocusArea={setCurrentFocusArea}
-        />
-        <GameInfoPanel
-          status={status}
-          capturedPieces={capturedPieces}
-          isMobileOrTV={isMobileOrTV}
-          userAgent={userAgent}
-          className="flex-grow w-full"
         />
       </div>
     </div>

@@ -74,7 +74,7 @@ const App: React.FC = () => {
         } else {
           window.history.back();
         }
-      }).then(listener => {
+      }).then((listener) => {
         backButtonListenerRef.current = listener;
       });
 
@@ -100,9 +100,9 @@ const App: React.FC = () => {
             event.preventDefault();
           }
         } else if (event.key === 'Enter') {
-            // When enter is pressed on a button, focus the board
-            setCurrentFocusArea('board');
-            event.preventDefault();
+          // When enter is pressed on a button, focus the board
+          setCurrentFocusArea('board');
+          event.preventDefault();
         } else if (event.key === 'Backspace' || event.key === 'Escape') {
           setCurrentFocusArea('board');
           event.preventDefault();
